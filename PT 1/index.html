@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital DSA Simulator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- HEADER -->
+    <header>
+        <div>
+            <h1>Hospital DSA Simulator</h1>
+            <p>Stack • Queue • Priority Queue</p>
+        </div>
+
+        <button class="reset-btn" onclick="resetSystem()">
+            Reset System
+        </button>
+    </header>
+
+
+    <!-- DASHBOARD -->
+    <section class="dashboard">
+
+        <div class="stat-card">
+            <span>Patients Waiting</span>
+            <strong id="queueCount">0</strong>
+        </div>
+
+        <div class="stat-card">
+            <span>Emergency Patients</span>
+            <strong id="priorityCount">0</strong>
+        </div>
+
+        <div class="stat-card">
+            <span>Medical Records</span>
+            <strong id="stackCount">0</strong>
+        </div>
+
+        <div class="stat-card">
+            <span>Patients Served</span>
+            <strong id="servedCount">0</strong>
+        </div>
+
+    </section>
+
+
+    <!-- NAVIGATION -->
+    <div class="navigation">
+
+        <button class="nav-btn active" onclick="showSection('queueSection', this)">
+            Patient Queue
+        </button>
+
+        <button class="nav-btn" onclick="showSection('prioritySection', this)">
+            Emergency Queue
+        </button>
+
+        <button class="nav-btn" onclick="showSection('stackSection', this)">
+            Medical Records
+        </button>
+
+        <button class="nav-btn" onclick="showSection('historySection', this)">
+            History
+        </button>
+
+    </div>
+
+
+    <!-- ================= QUEUE ================= -->
+
+    <section id="queueSection" class="section active-section">
+
+        <div class="section-header">
+            <div>
+                <h2>Patient Queue</h2>
+                <p>FIFO — First In, First Out</p>
+            </div>
+
+            <span class="algorithm">QUEUE</span>
+        </div>
+
+
+        <div class="form">
+
+            <input
+                type="text"
+                id="patientName"
+                placeholder="Patient name"
+            >
+
+            <input
+                type="text"
+                id="patientReason"
+                placeholder="Reason for visit"
+            >
+
+            <button onclick="addPatient()">
+                Add Patient
+            </button>
+
+        </div>
+
+
+        <div class="queue-info">
+
+            <div>
+                <strong>FRONT</strong>
+                <small>Next to be served</small>
+            </div>
+
+            <div>
+                <strong>REAR</strong>
+                <small>Latest arrival</small>
+            </div>
+
+        </div>
+
+
+        <div id="patientQueue" class="queue-container">
+            <p class="empty">No patients waiting.</p>
+        </div>
+
+
+        <div class="action-buttons">
+
+            <button onclick="servePatient()">
+                Serve Front Patient
+            </button>
+
+            <button onclick="viewNextPatient()">
+                View Next
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= PRIORITY QUEUE ================= -->
+
+    <section id="prioritySection" class="section">
+
+        <div class="section-header">
+            <div>
+                <h2>Emergency Priority Queue</h2>
+                <p>Patients are served according to severity.</p>
+            </div>
+
+            <span class="algorithm emergency">
+                PRIORITY QUEUE
+            </span>
+        </div>
+
+
+        <div class="form">
+
+            <input
+                type="text"
+                id="emergencyName"
+                placeholder="Patient name"
+            >
+
+            <select id="severity">
+
+                <option value="1">Critical</option>
+                <option value="2">Urgent</option>
+                <option value="3">Moderate</option>
+                <option value="4">Minor</option>
+
+            </select>
+
+            <input
+                type="text"
+                id="emergencyReason"
+                placeholder="Emergency reason"
+            >
+
+            <button onclick="addEmergencyPatient()">
+                Add Emergency
+            </button>
+
+        </div>
+
+
+        <div id="priorityQueue" class="priority-container">
+            <p class="empty">No emergency patients.</p>
+        </div>
+
+
+        <div class="action-buttons">
+
+            <button onclick="serveEmergency()">
+                Treat Highest Priority
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= STACK ================= -->
+
+    <section id="stackSection" class="section">
+
+        <div class="section-header">
+
+            <div>
+                <h2>Medical Record Stack</h2>
+                <p>LIFO — Last In, First Out</p>
+            </div>
+
+            <span class="algorithm">
+                STACK
+            </span>
+
+        </div>
+
+
+        <div class="form">
+
+            <input
+                type="text"
+                id="recordPatient"
+                placeholder="Patient name"
+            >
+
+            <input
+                type="text"
+                id="recordType"
+                placeholder="Record type"
+            >
+
+            <button onclick="addRecord()">
+                Add Record
+            </button>
+
+        </div>
+
+
+        <div class="stack-label">
+            TOP ↓
+        </div>
+
+
+        <div id="recordStack" class="stack-container">
+            <p class="empty">No records.</p>
+        </div>
+
+
+        <div class="action-buttons">
+
+            <button onclick="processRecord()">
+                Process Top Record
+            </button>
+
+            <button onclick="peekRecord()">
+                View Top
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= HISTORY ================= -->
+
+    <section id="historySection" class="section">
+
+        <div class="section-header">
+
+            <div>
+                <h2>Operation History</h2>
+                <p>Every data structure operation is recorded here.</p>
+            </div>
+
+        </div>
+
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>#</th>
+                        <th>Structure</th>
+                        <th>Operation</th>
+                        <th>Patient / Value</th>
+                        <th>Time</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="historyTable">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+    <!-- NOTIFICATION -->
+    <div id="notification"></div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
